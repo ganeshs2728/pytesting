@@ -11,4 +11,4 @@ jobs:
       - name: initating the testing
         run: |
           cd test
-          pytest test_pytest.py
+          pytest test_*.py
