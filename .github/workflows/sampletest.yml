@@ -1,0 +1,12 @@
+name: test
+on:
+  workflow_run:
+    workflows: ["jtest testing"]
+    types:
+    - completed
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: mystep
+        run: echo "hellp"
