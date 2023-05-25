@@ -20,8 +20,8 @@ jobs:
         run: |
           diff=$(git diff --name-only HEAD^ HEAD)
           echo "working"
-          echo "$diff"
-
+          value= echo "$diff" 
+          sourceDiff=$(value | grep '^sampleaction/')
           echo "working"
           hasDiff=false
           if [[ -n "$sourceDiff" ]]; then
