@@ -1,4 +1,11 @@
 name: Conditional Job Workflow
+# on:
+#   push:
+#     branches:
+#       - main
+#     paths:
+#       - "sampleaction/**"
+#       - "test/**"
 
 on:
   push:
