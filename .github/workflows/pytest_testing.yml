@@ -7,27 +7,46 @@ on:
       - "sampleaction/**"
       - "test/**"
 jobs:
-  # sample-job:
+  # # sample-job:
+  # #   runs-on: ubuntu-latest
+  # #   steps:
+  # #     - name: check changes
+  # #       uses: dorny/paths-filter@v2
+  # #       id: changes
+  # #       with:
+  # #         filters: |
+  # #           src:
+  # #             - 'sampleaction/**'
+  # #     - name: imply output
+  # #       if: steps.changes.outputs.src == 'true'
+  # #       run: |
+  # #         echo "done"
+  # check_folder_changes:
   #   runs-on: ubuntu-latest
   #   steps:
-  #     - name: check changes
-  #       uses: dorny/paths-filter@v2
-  #       id: changes
-  #       with:
-  #         filters: |
-  #           src:
-  #             - 'sampleaction/**'
-  #     - name: imply output
-  #       if: steps.changes.outputs.src == 'true'
-  #       run: |
-  #         echo "done"
+  #     - name: Check folder changes
+  #       id: folder_changes
+  #       # run: echo "::set-output name=changed::$(git diff --name-only ${{ github.event.before }} ${{ github.event.after }})"
+  #       run: echo "::set-output name=changed::$(git diff --name-only main ${GITHUB_SHA})"
+  # conditional_job:
+  #   needs: check_folder_changes
+  #   runs-on: ubuntu-latest
+  #   if: ${{ contains(needs.check_folder_changes.outputs.changed, 'sampleaction/') }}
+  #   steps:
+  #     - name: Run conditional job
+  #       run: echo "This job runs only if 'test/' folder is changed"
   check_folder_changes:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
       - name: Check folder changes
         id: folder_changes
-        # run: echo "::set-output name=changed::$(git diff --name-only ${{ github.event.before }} ${{ github.event.after }})"
-        run: echo "::set-output name=changed::$(git diff --name-only main ${GITHUB_SHA})"
+        run: |
+          CHANGED_FILES=$(git diff-tree --no-commit-id --name-only -r ${{ github.event.before }} ${{ github.event.after }})
+          echo "::set-output name=changed::${CHANGED_FILES}"
+
   conditional_job:
     needs: check_folder_changes
     runs-on: ubuntu-latest
@@ -35,6 +54,7 @@ jobs:
     steps:
       - name: Run conditional job
         run: echo "This job runs only if 'test/' folder is changed"
+
   first-job:
     needs: [check_folder_changes]
     runs-on: ubuntu-latest
