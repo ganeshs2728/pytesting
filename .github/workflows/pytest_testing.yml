@@ -1,7 +1,21 @@
 name: jtest testing
 on: workflow_dispatch
 jobs:
+  sample-job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: check changes
+        uses: dorny/paths-filter@v2
+        id: changes
+        with:
+          filters: |
+            src:
+              - 'sampleaction/**'
+        if: steps.changes.outputs.src == 'true'
+        run: |
+          echo "done"
   first-job:
+    needs: [first-job]
     runs-on: ubuntu-latest
     steps:
       - name: downloading repo
