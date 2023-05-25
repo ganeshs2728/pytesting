@@ -24,22 +24,19 @@ jobs:
           $SourceDiff = $diff | Where-Object { $_ -match '^sampleaction/'}
           $HasDiff = $SourceDiff.Length -gt 0
           # Set the output named "docs_changed"
-          echo "{docs_changes}={HasDiff}" >> $GITHUB_OUTPUT
-      - name: next step
-        run: |
-          echo "${{ env.docs_changes }}"
+          echo "{docs_changes}={HasDiff}" >> $GITHUB_ENV
         #  Write-Host "::set-output name=docs_changed::$HasDiff"
 
-  # # Run the job only with "docs_changed" equals "True"
-  # conditional_job:
-  #   runs-on: "ubuntu-20.04"
-  #   needs: [conditional_job_check_files]
-  #   if: needs.${{ env.docs_changes }}== 'True'
-  #   steps:
-  #     - shell: pwsh
-  #       run: echo publish docs
-  first-job:
+  # Run the job only with "docs_changed" equals "True"
+  conditional_job:
+    runs-on: "ubuntu-20.04"
     needs: [conditional_job_check_files]
+    if: needs.${{ env.docs_changes }}== 'True'
+    steps:
+      - shell: pwsh
+        run: echo publish docs
+  first-job:
+    needs: [conditional_job]
     if: always()
     runs-on: ubuntu-latest
     steps:
