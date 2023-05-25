@@ -25,9 +25,10 @@ jobs:
           $HasDiff = $SourceDiff.Length -gt 0
           # Set the output named "docs_changed"
           echo "docs_changed=HasDiff" >> "$GITHUB_OUTPUT"
+          echo "DOCS_CHANGED=green" >> "$GITHUB_OUTPUT"
         #  Write-Host "::set-output name=docs_changed::$HasDiff"
       - name: next step
-        run: echo "The selected color is ${{ steps.check_file_changed.outputs.docs_changed }}"
+        run: echo "The selected color is ${{ steps.check_file_changed.outputs.DOCS_CHANGED }}"
       - name: Set color
         id: random-color-generator
         run: echo "SELECTED_COLOR=green" >> "$GITHUB_OUTPUT"
