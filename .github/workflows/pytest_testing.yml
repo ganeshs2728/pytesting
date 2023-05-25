@@ -22,7 +22,7 @@ jobs:
         run: |
           echo "done"
   first-job:
-    needs: [first-job]
+    needs: [sample-job]
     runs-on: ubuntu-latest
     steps:
       - name: downloading repo
