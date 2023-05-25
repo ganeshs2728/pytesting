@@ -19,18 +19,17 @@ jobs:
         id: check_file_changed
         run: |
           diff=$(git diff --name-only HEAD^ HEAD)
+          echo "working"
           sourceDiff=$(echo "$diff" | grep -E '^sampleaction/')
+          echo "working"
+          hasDiff=false
           if [[ -n "$sourceDiff" ]]; then
             hasDiff=true
-          else
-            hasDiff=false
           fi
-          if [[ "$hasDiff" == true ]]; then
-            echo "::set-output name=docs_changed::$hasDiff"
-          else
-            echo "No commit changes found. This should not happen."
-          exit 1
-          fi
+
+
+          echo "working"
+          echo "docs_changed=$hasDiff" >> $GITHUB_OUTPUT
 
   # Run the job only with "docs_changed" equals "True"
   conditional_job:
@@ -95,3 +94,9 @@ jobs:
           # fi
           # echo "working"
           # echo "docs_changed=$hasDiff" >> $GITHUB_OUTPUT
+
+          #      hasDiff=$sourceDiff.length -gt 0
+          # echo "working"
+          # if [ -n "$sourceDiff" ]; then
+          #   hasDiff=true
+          # fi
