@@ -19,13 +19,15 @@ jobs:
         id: check_file_changed
         run: |
           diff=$(git diff --name-only HEAD^ HEAD)
-
-          # Check if a file under docs/ or with the .md extension has changed (added, modified, deleted)
+          echo "working"
           sourceDiff=$(echo "$diff" | grep -E '^sampleaction/')
+          echo "working"
           hasDiff=$sourceDiff.length -gt 0
+          echo "working"
           if [ -n "$sourceDiff" ]; then
             hasDiff=true
           fi
+          echo "working"
           echo "docs_changed=$hasDiff" >> $GITHUB_OUTPUT
 
   # Run the job only with "docs_changed" equals "True"
