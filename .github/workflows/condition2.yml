@@ -28,6 +28,13 @@ jobs:
         #  Write-Host "::set-output name=docs_changed::$HasDiff"
       - name: next step
         run: echo "The selected color is ${{ steps.check_file_changed.outputs.docs_changed }}"
+      - name: Set color
+        id: random-color-generator
+        run: echo "SELECTED_COLOR=green" >> "$GITHUB_OUTPUT"
+      - name: Get color
+
+        run: echo "The selected color is ${{ steps.random-color-generator.outputs.SELECTED_COLOR }}"
+
   # Run the job only with "docs_changed" equals "True"
   # conditional_job:
   #   runs-on: "ubuntu-20.04"
