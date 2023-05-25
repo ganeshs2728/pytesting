@@ -1,5 +1,11 @@
 name: jtest testing
-on: workflow_dispatch
+on:
+  push:
+    branches:
+      - main
+  paths:
+    - "sampleaction/**"
+    - "test/**"
 jobs:
   sample-job:
     runs-on: ubuntu-latest
@@ -11,6 +17,7 @@ jobs:
           filters: |
             src:
               - 'sampleaction/**'
+      - name: imply output
         if: steps.changes.outputs.src == 'true'
         run: |
           echo "done"
