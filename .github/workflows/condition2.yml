@@ -1,0 +1,68 @@
+name: sample
+on:
+  push:
+    branches:
+      - "main"
+
+jobs:
+  conditional_job_check_files:
+    runs-on: "ubuntu-20.04"
+    # Declare outputs for next jobs
+    # outputs:
+    #   docs_changed: ${{ steps.check_file_changed.outputs.docs_changed }}
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          # Checkout as many commits as needed for the diff
+          fetch-depth: 2
+      - shell: pwsh
+        id: check_file_changed
+        run: |
+          # Diff HEAD with the previous commit
+          $diff = git diff --name-only HEAD^ HEAD
+          # Check if a file under docs/ or with the .md extension has changed (added, modified, deleted)
+          $SourceDiff = $diff | Where-Object { $_ -match '^sampleaction/'}
+          $HasDiff = $SourceDiff.Length -gt 0
+          # Set the output named "docs_changed"
+          echo "{docs_changes}={HasDiff}" >> $GITHUB_OUTPUT
+        #  Write-Host "::set-output name=docs_changed::$HasDiff"
+
+  # Run the job only with "docs_changed" equals "True"
+  conditional_job:
+    runs-on: "ubuntu-20.04"
+    needs: [conditional_job_check_files]
+    if: needs.${{ env.docs_changes }}== 'True'
+    steps:
+      - shell: pwsh
+        run: echo publish docs
+  first-job:
+    needs: [conditional_job]
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - name: downloading repo
+        uses: actions/checkout@v3
+      - name: Install dependencies
+        run: pip3 install pytest
+      - name: initating the testing
+        run: |
+          cd test
+          pytest test_*.py
+      - name: Send mail
+        if: failure()
+        uses: dawidd6/action-send-mail@v2
+        with:
+          # mail server settings
+          server_address: smtp.gmail.com
+          server_port: 465
+          # user credentials
+          username: ${{ secrets.EMAIL_USERNAME }}
+          password: ${{ secrets.EMAIL_PASSWORD }}
+          # email subject
+          subject: ${{ github.job }} job of ${{ github.repository }} has ${{ job.status }}
+          # email body as text
+          body: ${{ github.job }} job in worflow ${{ github.workflow }} of ${{ github.repository }} has ${{ job.status }}
+          # comma-separated string, send email to
+          to: ganesh.sonawane.9942@gmail.com,ganeshsonawane5896@gmail.com,ganesh.sonawane@interactiveavenues.com
+          # from email name
+          from: Ganesh Sonawane
