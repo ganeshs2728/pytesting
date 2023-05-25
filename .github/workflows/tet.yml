@@ -22,6 +22,8 @@ jobs:
           echo "working"
           if echo "$diff" | grep 'sampleaction/*'; then
             sourceDiff = true
+          else:
+            sourceDiff = false
           fi
           echo "working"
           hasDiff=false
