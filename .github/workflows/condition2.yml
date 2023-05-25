@@ -9,7 +9,7 @@ jobs:
     runs-on: "ubuntu-20.04"
     # Declare outputs for next jobs
     outputs:
-      docs_changed: ${{ steps.check_file_changed.env.docs_changed }}
+      docs_changed: ${{ steps.check_file_changed.${{env.docs_changed}} }}
     steps:
       - uses: actions/checkout@v2
         with:
