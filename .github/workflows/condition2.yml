@@ -18,7 +18,7 @@ jobs:
       - name: check file
         id: check_file_changed
         run: |
-          echo "$diff = git diff --name-only HEAD^ HEAD"
+          echo "$diff = git diff --name-only HEAD\^ HEAD"
           echo "$SourceDiff = $diff | Where-Object { $_ -match '^sampleaction/'}""
           echo "$HasDiff = $SourceDiff.Length -gt 0"
           echo "docs_changed=HasDiff" >> "$GITHUB_OUTPUT"
