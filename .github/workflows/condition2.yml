@@ -18,9 +18,9 @@ jobs:
       - name: check file
         id: check_file_changed
         run: |
-          $diff = git diff --name-only HEAD^ HEAD
-          $SourceDiff = $diff | Where-Object { $_ -match '^sampleaction/'}
-          $HasDiff = $SourceDiff.Length -gt 0
+          sh $diff = git diff --name-only HEAD^ HEAD
+          sh $SourceDiff = $diff | Where-Object { $_ -match '^sampleaction/'}
+          sh $HasDiff = $SourceDiff.Length -gt 0
           echo "docs_changed=HasDiff" >> "$GITHUB_OUTPUT"
           echo "DOCS_CHANGED=green" >> "$GITHUB_OUTPUT"
         #  Write-Host "::set-output name=docs_changed::$HasDiff"
