@@ -8,8 +8,8 @@ jobs:
   conditional_job_check_files:
     runs-on: "ubuntu-20.04"
     # Declare outputs for next jobs
-    # outputs:
-    #   docs_changed: ${{ steps.check_file_changed.outputs.docs_changed }}
+    outputs:
+      docs_changed: ${{ steps.check_file_changed.env.docs_changed }}
     steps:
       - uses: actions/checkout@v2
         with:
@@ -24,14 +24,14 @@ jobs:
           $SourceDiff = $diff | Where-Object { $_ -match '^sampleaction/'}
           $HasDiff = $SourceDiff.Length -gt 0
           # Set the output named "docs_changed"
-          echo "{docs_changes}={HasDiff}" >> $GITHUB_ENV
+          echo "{docs_changes}={HasDiff}" >> $GITHUB_OUTPUT
         #  Write-Host "::set-output name=docs_changed::$HasDiff"
 
   # Run the job only with "docs_changed" equals "True"
   conditional_job:
     runs-on: "ubuntu-20.04"
     needs: [conditional_job_check_files]
-    if: job.conditional_job_check_files.container.env.docs_changes== 'TRUE'
+    if: needs.conditional_job_check_files.outputs.docs_changed == 'True'
     steps:
       - shell: pwsh
         run: echo publish docs
