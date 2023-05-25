@@ -8,8 +8,8 @@ jobs:
   conditional_job_check_files:
     runs-on: "ubuntu-20.04"
     # Declare outputs for next jobs
-    # outputs:
-    #   docs_changed: ${{ steps.check_file_changed.${{env.docs_changed}} }}
+    outputs:
+      docs_changed: ${{ steps.check_file_changed.outputs.docs_changed }}
     steps:
       - uses: actions/checkout@v2
         with:
@@ -24,25 +24,16 @@ jobs:
           $SourceDiff = $diff | Where-Object { $_ -match '^sampleaction/'}
           $HasDiff = $SourceDiff.Length -gt 0
           # Set the output named "docs_changed
-          echo "DOCS_CHANGED=green" >> "$GITHUB_OUTPUT"
-        #  Write-Host "::set-output name=docs_changed::$HasDiff"
-      - name: next step
-        run: echo "The selected color is ${{ steps.check_file_changed.outputs.DOCS_CHANGED }}"
-      - name: Set color
-        id: random-color-generator
-        run: echo "SELECTED_COLOR=green" >> "$GITHUB_OUTPUT"
-      - name: Get color
+          echo "docs_changed=$HasDif" >> "$GITHUB_OUTPUT"
 
-        run: echo "The selected color is ${{ steps.random-color-generator.outputs.SELECTED_COLOR }}"
-
-  # Run the job only with "docs_changed" equals "True"
-  # conditional_job:
-  #   runs-on: "ubuntu-20.04"
-  #   needs: [conditional_job_check_files]
-  #   if: needs.check_file_changed.outputs.docs_changed == 'True'
-  #   steps:
-  #     - shell: pwsh
-  #       run: echo publish docs
+  Run the job only with "docs_changed" equals "True"
+  conditional_job:
+    runs-on: "ubuntu-20.04"
+    needs: [conditional_job_check_files]
+    if: needs.check_file_changed.outputs.docs_changed == 'True'
+    steps:
+      - shell: pwsh
+        run: echo publish docs
   # first-job:
   #   needs: [conditional_job]
   #   if: always()
