@@ -37,7 +37,7 @@ jobs:
       - shell: pwsh
         run: echo publish docs
   first-job:
-    needs: [check_folder_changes]
+    needs: [conditional_job]
     if: always()
     runs-on: ubuntu-latest
     steps:
