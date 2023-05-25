@@ -3,7 +3,7 @@ on:
   workflow_run:
     workflows: ["jtest testing"]
     types:
-    - completed
+      - completed
 jobs:
   notify:
     runs-on: ubuntu-latest
