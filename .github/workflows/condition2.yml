@@ -24,7 +24,7 @@ jobs:
           $SourceDiff = $diff | Where-Object { $_ -match '^sampleaction/'}
           $HasDiff = $SourceDiff.Length -gt 0
           # Set the output named "docs_changed"
-          echo "{docs_changes}={HasDiff}" >> $GITHUB_OUTPUT
+          echo "{docs_changes}={HasDiff}" >> $GITHUB_ENV
         #  Write-Host "::set-output name=docs_changed::$HasDiff"
 
   # Run the job only with "docs_changed" equals "True"
