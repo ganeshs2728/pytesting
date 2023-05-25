@@ -21,7 +21,7 @@ jobs:
           $diff = git diff --name-only HEAD^ HEAD
           $SourceDiff = $diff | Where-Object { $_ -match '^sampleaction/'}
           $HasDiff = $SourceDiff.Length -gt 0
-          $DOCS_CHANGED=HasDiff" >> "$GITHUB_OUTPUT"
+          $DOCS_CHANGED=HasDiff >> "$GITHUB_OUTPUT"
           echo "${{DOCS_CHANGED}}==TRUE"
         #  Write-Host "::set-output name=docs_changed::$HasDiff"
       - name: next step
