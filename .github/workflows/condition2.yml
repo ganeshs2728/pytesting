@@ -15,14 +15,14 @@ jobs:
         with:
           # Checkout as many commits as needed for the diff
           fetch-depth: 2
-      - name: check file
+      - shell: pwsh
         id: check_file_changed
         run: |
-          echo "$diff = git diff --name-only HEAD^ HEAD"
-          echo "$SourceDiff = $diff | Where-Object { $_ -match '^sampleaction/'}"
-          echo "$HasDiff = $SourceDiff.Length -gt 0"
-          echo "docs_changed=HasDiff" >> "$GITHUB_OUTPUT"
-          echo "DOCS_CHANGED=HasDiff" >> "$GITHUB_OUTPUT"
+          $diff = git diff --name-only HEAD^ HEAD
+          $SourceDiff = $diff | Where-Object { $_ -match '^sampleaction/'}
+          $HasDiff = $SourceDiff.Length -gt 0
+          $DOCS_CHANGED=HasDiff" >> "$GITHUB_OUTPUT"
+          echo "$DOCS_CHANGED"
         #  Write-Host "::set-output name=docs_changed::$HasDiff"
       - name: next step
         run: echo "The selected color is ${{ steps.check_file_changed.outputs.DOCS_CHANGED }}"
