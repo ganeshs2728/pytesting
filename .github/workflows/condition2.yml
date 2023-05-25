@@ -22,7 +22,6 @@ jobs:
           $SourceDiff = $diff | Where-Object { $_ -match '^sampleaction/'}
           $HasDiff = $SourceDiff.Length -gt 0
           $DOCS_CHANGED=HasDiff >> "$GITHUB_OUTPUT"
-          echo "${{DOCS_CHANGED}}==TRUE"
         #  Write-Host "::set-output name=docs_changed::$HasDiff"
       - name: next step
         run: echo "The selected color is ${{ steps.check_file_changed.outputs.DOCS_CHANGED }}"
