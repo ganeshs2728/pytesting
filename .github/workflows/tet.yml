@@ -29,7 +29,7 @@ jobs:
           fi
 
 
-          echo "working"
+          echo "working2"
           echo "docs_changed=$hasDiff" >> $GITHUB_OUTPUT
 
   # Run the job only with "docs_changed" equals "True"
