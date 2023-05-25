@@ -24,7 +24,7 @@ jobs:
           $SourceDiff = $diff | Where-Object { $_ -match '^sampleaction/'}
           $HasDiff = $SourceDiff.Length -gt 0
           # Set the output named "docs_changed
-          echo "docs_changed=$HasDif" >> $env:"$GITHUB_OUTPUT"
+          echo "docs_changed=$HasDif" >> $env:GITHUB_OUTPUT
   conditional_job:
     runs-on: "ubuntu-20.04"
     needs: [conditional_job_check_files]
