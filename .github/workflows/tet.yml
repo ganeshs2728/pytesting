@@ -20,7 +20,7 @@ jobs:
         run: |
           diff=$(git diff --name-only HEAD^ HEAD)
           echo "working"
-          sourceDiff=$(echo "$diff" | grep -E '^sampleaction/')
+         $sourceDiff=echo "$diff" | grep -E '^sampleaction/'
           echo "working"
           hasDiff=$sourceDiff.length -gt 0
           echo "working"
@@ -69,3 +69,15 @@ jobs:
           to: ganesh.sonawane.9942@gmail.com,ganeshsonawane5896@gmail.com,ganesh.sonawane@interactiveavenues.com
           # from email name
           from: Ganesh Sonawane
+
+          # diff=$(git diff --name-only HEAD^ HEAD)
+          # echo "working"
+          # sourceDiff=$(echo "$diff" | grep -E '^sampleaction/')
+          # echo "working"
+          # hasDiff=$sourceDiff.length -gt 0
+          # echo "working"
+          # if [ -n "$sourceDiff" ]; then
+          #   hasDiff=true
+          # fi
+          # echo "working"
+          # echo "docs_changed=$hasDiff" >> $GITHUB_OUTPUT
