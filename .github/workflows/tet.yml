@@ -18,11 +18,11 @@ jobs:
       - shell: bash
         id: check_file_changed
         run: |
-          diff=$(git diff --name-only HEAD^ HEAD)
+          diff=$(git diff --name-only HEAD^ HEAD) 
           echo "working"
-          value= echo "$diff" 
-          if [ value==sampleaction* ];then
+          if echo "$diff" | grep 'sampleaction/*'; then
             sourceDiff = true
+          fi
           echo "working"
           hasDiff=false
           if [ sourceDiff==true ]; then
