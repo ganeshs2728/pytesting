@@ -27,7 +27,7 @@ jobs:
   conditional_job:
     needs: check_folder_changes
     runs-on: ubuntu-latest
-    if: ${{ contains(needs.check_folder_changes.outputs.changed, 'test/') }}
+    if: ${{ contains(needs.check_folder_changes.outputs.changed, 'sampleaction/') }}
     steps:
       - name: Run conditional job
         run: echo "This job runs only if 'test/' folder is changed"
