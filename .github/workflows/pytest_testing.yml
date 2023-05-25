@@ -3,9 +3,9 @@ on:
   push:
     branches:
       - main
-  paths:
-    - "sampleaction/**"
-    - "test/**"
+    paths:
+      - "sampleaction/**"
+      - "test/**"
 jobs:
   sample-job:
     runs-on: ubuntu-latest
