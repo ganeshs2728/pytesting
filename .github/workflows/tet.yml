@@ -21,7 +21,7 @@ jobs:
           diff=$(git diff --name-only HEAD^ HEAD)
           echo "working"
           value= echo "$diff" 
-          if [ value==sampleaction*];then
+          if [ value==sampleaction* ];then
             sourceDiff = true
           echo "working"
           hasDiff=false
