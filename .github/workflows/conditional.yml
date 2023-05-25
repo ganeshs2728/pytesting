@@ -18,15 +18,24 @@ jobs:
       - shell: pwsh
         id: check_file_changed
         run: |
-          # Diff HEAD with the previous commit
-          $diff = git diff --name-only HEAD^ HEAD
+          diff=$(git diff --name-only HEAD^ HEAD)
 
-          # Check if a file under docs/ or with the .md extension has changed (added, modified, deleted)
-          $SourceDiff = $diff | Where-Object { $_ -match '^sampleaction/'}
-          $HasDiff = $SourceDiff.Length -gt 0
+# Check if a file under sampleaction/ has changed (added, modified, deleted)
+          sourceDiff=$(echo "$diff" | grep -E '^sampleaction/')
 
-          # Set the output named "docs_changed"
-          Write-Host "::set-output name=docs_changed::$HasDiff"
+          if [[ -n "$sourceDiff" ]]; then
+            hasDiff=true
+          else
+            hasDiff=false
+          fi
+
+# Set the output named "docs_changed"
+          if [[ "$hasDiff" == true ]]; then
+            echo "::set-output name=docs_changed::$hasDiff"
+          else
+            echo "No commit changes found. This should not happen."
+          exit 1
+          fi
 
   # Run the job only with "docs_changed" equals "True"
   conditional_job:
