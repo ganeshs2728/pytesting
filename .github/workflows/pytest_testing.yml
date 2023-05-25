@@ -1,53 +1,67 @@
-# name: jtest testing
-# on:
-#   push:
-#     branches:
-#       - main
-#     paths:
-#       - "sampleaction/**"
-#       - "test/**"
-# jobs:
-#   sample-job:
-#     runs-on: ubuntu-latest
-#     steps:
-#       - name: check changes
-#         uses: dorny/paths-filter@v2
-#         id: changes
-#         with:
-#           filters: |
-#             src:
-#               - 'sampleaction/**'
-#       - name: imply output
-#         if: steps.changes.outputs.src == 'true'
-#         run: |
-#           echo "done"
-#   first-job:
-#     needs: [sample-job]
-#     runs-on: ubuntu-latest
-#     steps:
-#       - name: downloading repo
-#         uses: actions/checkout@v3
-#       - name: Install dependencies
-#         run: pip3 install pytest
-#       - name: initating the testing
-#         run: |
-#           cd test
-#           pytest test_*.py
-#       - name: Send mail
-#         if: failure()
-#         uses: dawidd6/action-send-mail@v2
-#         with:
-#           # mail server settings
-#           server_address: smtp.gmail.com
-#           server_port: 465
-#           # user credentials
-#           username: ${{ secrets.EMAIL_USERNAME }}
-#           password: ${{ secrets.EMAIL_PASSWORD }}
-#           # email subject
-#           subject: ${{ github.job }} job of ${{ github.repository }} has ${{ job.status }}
-#           # email body as text
-#           body: ${{ github.job }} job in worflow ${{ github.workflow }} of ${{ github.repository }} has ${{ job.status }}
-#           # comma-separated string, send email to
-#           to: ganesh.sonawane.9942@gmail.com,ganeshsonawane5896@gmail.com,ganesh.sonawane@interactiveavenues.com
-#           # from email name
-#           from: Ganesh Sonawane
+name: jtest testing
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "sampleaction/**"
+      - "test/**"
+jobs:
+  # sample-job:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: check changes
+  #       uses: dorny/paths-filter@v2
+  #       id: changes
+  #       with:
+  #         filters: |
+  #           src:
+  #             - 'sampleaction/**'
+  #     - name: imply output
+  #       if: steps.changes.outputs.src == 'true'
+  #       run: |
+  #         echo "done"
+  check_folder_changes:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check folder changes
+        id: folder_changes
+        # run: echo "::set-output name=changed::$(git diff --name-only ${{ github.event.before }} ${{ github.event.after }})"
+        run: echo "::set-output name=changed::$(git diff --name-only main ${GITHUB_SHA})"
+  conditional_job:
+    needs: check_folder_changes
+    runs-on: ubuntu-latest
+    if: ${{ contains(needs.check_folder_changes.outputs.changed, 'sampleaction/') }}
+    steps:
+      - name: Run conditional job
+        run: echo "This job runs only if 'test/' folder is changed"
+  first-job:
+    needs: [checl_folder_changes]
+    runs-on: ubuntu-latest
+    steps:
+      - name: downloading repo
+        uses: actions/checkout@v3
+      - name: Install dependencies
+        run: pip3 install pytest
+      - name: initating the testing
+        run: |
+          cd test
+          pytest test_*.py
+      - name: Send mail
+        if: failure()
+        uses: dawidd6/action-send-mail@v2
+        with:
+          # mail server settings
+          server_address: smtp.gmail.com
+          server_port: 465
+          # user credentials
+          username: ${{ secrets.EMAIL_USERNAME }}
+          password: ${{ secrets.EMAIL_PASSWORD }}
+          # email subject
+          subject: ${{ github.job }} job of ${{ github.repository }} has ${{ job.status }}
+          # email body as text
+          body: ${{ github.job }} job in worflow ${{ github.workflow }} of ${{ github.repository }} has ${{ job.status }}
+          # comma-separated string, send email to
+          to: ganesh.sonawane.9942@gmail.com,ganeshsonawane5896@gmail.com,ganesh.sonawane@interactiveavenues.com
+          # from email name
+          from: Ganesh Sonawane
