@@ -31,7 +31,7 @@ jobs:
   conditional_job:
     runs-on: "ubuntu-20.04"
     needs: [conditional_job_check_files]
-    if: ${{ env.docs_changes == 'True'}}
+    if: job.conditional_job_check_files.container.env.docs_changes== 'TRUE'
     steps:
       - shell: pwsh
         run: echo publish docs
