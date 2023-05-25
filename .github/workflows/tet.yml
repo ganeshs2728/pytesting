@@ -20,6 +20,8 @@ jobs:
         run: |
           diff=$(git diff --name-only HEAD^ HEAD)
           echo "working"
+          echo "$diff"
+
           echo "working"
           hasDiff=false
           if [[ -n "$sourceDiff" ]]; then
