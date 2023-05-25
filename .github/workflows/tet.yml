@@ -26,7 +26,7 @@ jobs:
           if [ -n "$sourceDiff" ]; then
             hasDiff=true
           fi
-          echo "::set-output name=docs_changed::$hasDiff"
+          echo "docs_changed=$hasDiff" >> $GITHUB_ACTION
 
   # Run the job only with "docs_changed" equals "True"
   conditional_job:
