@@ -19,23 +19,23 @@ jobs:
         id: check_file_changed
         run: |
           diff=$(git diff --name-only HEAD^ HEAD) 
-          sourceDiff=$false
+          sourceDiff=false
           echo "working"
-          if echo "$diff" | grep 'sampleaction/*'; then
-            sourceDiff=$true
+          if [ echo "$diff" | grep 'sampleaction/*' ]; then
+            sourceDiff=true
             echo "inside diff"
           else:
-            sourceDiff=$false
+            sourceDiff=false
             echo "diff is false"
           fi
           echo "working"
-          hasDiff=$false
+          hasDiff=false
           if [ $sourceDiff==true ]; then
             hasDiff=$true
             echo "sourcediff true"
+          else:
+            hasDiff= false
           fi
-
-
           echo "working2"
           echo "docs_changed=$hasDiff" >> $GITHUB_OUTPUT
 
