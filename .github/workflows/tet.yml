@@ -18,17 +18,7 @@ jobs:
       - shell: bash
         id: check_file_changed
         run: |
-          diff=$(git diff --name-only HEAD^ HEAD) 
-          sourceDiff=false
-          echo "working"
-          echo "$diff" 
-          echo "$diff" | grep "sampleaction/*"
-          if [ $(echo "$?") == 0 ];then
-            echo "changed"
-            sourceDiff=true
-          fi
-          echo "working"
-          echo "docs_changed=$sourceDiff" >> $GITHUB_OUTPUT
+          ./scripts/sample.sh
 
   # Run the job only with "docs_changed" equals "True"
   conditional_job:
