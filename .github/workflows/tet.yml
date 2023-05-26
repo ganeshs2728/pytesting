@@ -19,17 +19,17 @@ jobs:
         id: check_file_changed
         run: |
           diff=$(git diff --name-only HEAD^ HEAD) 
-          sourceDiff= False
+          sourceDiff= $false
           echo "working"
           if echo "$diff" | grep 'sampleaction/*'; then
-            sourceDiff = True
+            sourceDiff = $true
           else:
-            sourceDiff = False
+            sourceDiff = $false
           fi
           echo "working"
-          hasDiff=False
-          if [ $sourceDiff==true ]; then
-            hasDiff=True
+          hasDiff=$false
+          if [ $sourceDiff==$true ]; then
+            hasDiff=$true
           fi
 
 
