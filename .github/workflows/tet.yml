@@ -22,7 +22,7 @@ jobs:
           sourceDiff=false
           echo "working"
           echo "$diff" 
-          echo "$diff" | grep -E "sampleaction/*"
+          echo $diff | grep -E "sampleaction/*"
           echo "$?"
           echo "here is correct $val"
           if echo "$diff" | grep 'sampleaction/*'; then
