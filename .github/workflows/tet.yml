@@ -22,7 +22,6 @@ jobs:
           sourceDiff=false
           echo "working"
           echo "$diff" 
-      # echo "$diff" | grep "sampleaction/*"
           if [ $(echo "$?") == 0 ];then
             echo "changed"
             sourceDiff=true
@@ -118,3 +117,4 @@ jobs:
           #   hasDiff= false
           # fi
           # echo "working2"
+# echo "$diff" | grep "sampleaction/*"
