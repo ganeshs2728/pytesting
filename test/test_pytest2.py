@@ -1,2 +1,2 @@
 def test_sample():
-    assert 2!=5
+    assert 2!=6
