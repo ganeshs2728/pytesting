@@ -18,6 +18,7 @@ jobs:
       - shell: bash
         id: check_file_changed
         run: |
+          chmod +x ./scripts/sample.sh
           ./scripts/sample.sh
 
   # Run the job only with "docs_changed" equals "True"
