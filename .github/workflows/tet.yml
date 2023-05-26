@@ -21,7 +21,7 @@ jobs:
           diff=$(git diff --name-only HEAD^ HEAD) 
           sourceDiff=false
           echo "working"
-          test=echo "$diff" | grep 'sampleaction/*'
+          echo "$diff" | grep 'sampleaction/*'
           echo "$test"
           if echo "$diff" | grep 'sampleaction/*'; then
             sourceDiff=true
