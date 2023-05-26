@@ -30,7 +30,7 @@ jobs:
           fi
           echo "working"
           hasDiff=$false
-          if [ $sourceDiff==$true ]; then
+          if [ $sourceDiff==true ]; then
             hasDiff=$true
             echo "sourcediff true"
           fi
